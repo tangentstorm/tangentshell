@@ -7,8 +7,17 @@ import cmd, os, sys
 sh = cmd.Cmd()
 sh.prompt = "> "
 
+def cmd(f):
+  setattr(sh, f.__name__, f)
+  return f
+
 # delegate to user's main shell (bash or whatever):
-sh.default = lambda cmd  : os.system(cmd)
+@cmd
+def default(line):
+    try:
+        os.system(line)
+    except:
+        pass
 
 # add 'cd' command since python won't change directories
 # when the child process does:
