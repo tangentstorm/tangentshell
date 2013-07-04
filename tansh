@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
-A little *nix shell written for python 3.x
+A little *nix shell written for python.
 """
-import cmd, os, sys, shlex
+import cmd, os, sys
 
 sh = cmd.Cmd()
 sh.prompt = "> "
@@ -22,11 +22,13 @@ def do_def(line):
     > def sum sum([ int(x) for x in arg.split() ])
     > sum 1 2 3 4 5
     """
-    head, *tail = shlex.split(line, 1)
-    tail = ' '.join(tail)
-    code = 'lambda arg: print(eval(%r))' % tail
-    func = eval(code)
-    setattr(sh, "do_%s" % head, func)
+    head, tail = line.split(' ', 1)
+    code = 'lambda arg: sys.stdout.write(str(eval(%r))+ "\\n")' % tail
+    try:
+        func = eval(code)
+        setattr(sh, "do_%s" % head, func)
+    except Exception as e:
+        print e
 
 sh.do_def = do_def ; del do_def
 
