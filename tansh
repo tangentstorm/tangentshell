@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 """
-A little *nix shell written in python.
+A little *nix shell written for python 3.x
 """
 import cmd, os, sys, shlex
 
 sh = cmd.Cmd()
+sh.prompt = "> "
 
 # delegate to user's main shell (bash or whatever):
 sh.default = lambda cmd  : os.system(cmd)
@@ -31,4 +32,3 @@ sh.do_def = do_def ; del do_def
 
 go = lambda : sh.cmdloop()
 go()
-
